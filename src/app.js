@@ -4,13 +4,15 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./Services/swagger.js";
 import jobApplication  from "./Routes/jobApplicationRoute.js"
-// import userRoutes from "./Routes/userRoutes.js";
+import userRoute from "./Routes/userRoute.js";
 import connectToDatabase from "./Config/db.js";
+
 
 const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
+
 //cors
 app.use(
   cors({
@@ -21,16 +23,22 @@ app.use(
     preflightContinue: false,
   })
 );
+
 //multer file store location
 app.use("/uploads", express.static("src/uploads"));
+
 // swagger docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // database connect
 connectToDatabase();
 import "./Models/jobApplicationModel.js"
+import './Models/userModel.js'
+
 // routes
 app.use("/api/",jobApplication);
+app.use('/admin/',userRoute)
+
 // app.use("/api/users", userRoutes);
 
 export default app;

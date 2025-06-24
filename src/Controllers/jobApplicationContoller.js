@@ -22,6 +22,7 @@ import Joi from "joi";
  *               - degree
  *               - skills
  *               - mobileNo
+ *               - gender
  *               - resume
  *             properties:
  *               name:
@@ -37,6 +38,8 @@ import Joi from "joi";
  *                 example: "Node.js,Express,MongoDB"
  *               mobileNo:
  *                 type: number
+ *               gender:
+ *                 type: string
  *               status:
  *                 type: string
  *                 enum: [shortlisted, rejected, view, viewed]
@@ -56,6 +59,7 @@ export const applyJob = async (req, res) => {
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     jobRole: Joi.string().required(),
+    gender : Joi.string().required(),
     degree: Joi.string().required(),
     skills: Joi.string().required(),
     mobileNo: Joi.number().integer().min(6000000000).max(9999999999).required(),
@@ -66,7 +70,7 @@ export const applyJob = async (req, res) => {
 
   try {
     const validatedBody = await validationSchema.validateAsync(req.body);
-    const { name, email, jobRole, degree, skills, mobileNo, status } =
+    const { name, email, jobRole, degree, skills,gender, mobileNo, status } =
       validatedBody;
     const resume = req.file?.path;
     if (!resume) {
@@ -79,6 +83,7 @@ export const applyJob = async (req, res) => {
       degree,
       skills: skills.split(",").map((s) => s.trim()),
       mobileNo,
+      gender,
       status,
       resume,
     });

@@ -18,6 +18,7 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    gender: { type: String, default: "NA" },
     skills: {
       type: [String],
       required: true,
@@ -26,6 +27,7 @@ const jobSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
     status: {
       type: String,
       enum: ["shortlisted", "rejected", "view", "viewed"],
